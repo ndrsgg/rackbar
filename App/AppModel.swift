@@ -166,7 +166,9 @@ final class AppModel {
         guard sshSyncEnabled else { sshStatus = .off; return }
         guard !demoMode else { sshStatus = .demo; return }
         guard sshFolder.url != nil else { sshStatus = .needsFolder; return }
-        guard Fleet.canSyncSSH(projects) else {
+        // With no accounts left, no hosts is the complete picture: removing
+        // the last label must empty the file, not leave its hosts behind.
+        guard accounts.isEmpty || Fleet.canSyncSSH(projects) else {
             let failed = projects.filter { !$0.isOK }.map(\.label)
             sshStatus = failed.isEmpty ? .waiting : .incomplete(failed)
             return
