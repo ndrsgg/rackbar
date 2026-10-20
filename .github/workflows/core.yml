@@ -1,0 +1,15 @@
+name: RackbarCore
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: swift:6.2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Test
+        working-directory: RackbarCore
+        run: swift test

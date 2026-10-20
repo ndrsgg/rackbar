@@ -1,0 +1,4 @@
+// Copy to Config/Local.xcconfig and put in your team ID (Xcode → Settings →
+// Accounts, or developer.apple.com → Membership). The data protection
+// Keychain needs a signed build, so "Sign to Run Locally" is not enough.
+DEVELOPMENT_TEAM = ABCDE12345
