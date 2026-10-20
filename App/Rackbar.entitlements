@@ -17,5 +17,11 @@
 	<true/>
 	<key>com.apple.security.files.bookmarks.app-scope</key>
 	<true/>
+	<!-- The data protection Keychain only serves an app with an application
+	     identifier, which comes with this group and its provisioning profile. -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)app.rackbar.Rackbar</string>
+	</array>
 </dict>
 </plist>
