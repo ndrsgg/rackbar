@@ -6,6 +6,7 @@ import SwiftUI
 struct MenuPanel: View {
     @Environment(AppModel.self) private var model
     @Environment(\.openSettings) private var openSettings
+    @Environment(\.dismiss) private var dismiss
     @State private var query = ""
 
     var body: some View {
@@ -136,7 +137,9 @@ struct MenuPanel: View {
         return parts.joined(separator: " · ")
     }
 
+    /// The panel steps aside: left open, it would float over the settings window.
     private func showSettings() {
+        dismiss()
         openSettings()
         NSApp.activate()
     }
