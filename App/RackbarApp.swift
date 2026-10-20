@@ -11,8 +11,8 @@ struct RackbarApp: App {
             MenuPanel()
                 .environment(model)
         } label: {
-            Image(systemName: "server.rack")
-                .accessibilityLabel("Rackbar")
+            Image(nsImage: model.hasProblem ? MenuBarIcon.problem : MenuBarIcon.normal)
+                .accessibilityLabel(model.hasProblem ? "Rackbar, has a problem" : "Rackbar")
         }
         .menuBarExtraStyle(.window)
 

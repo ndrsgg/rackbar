@@ -213,6 +213,13 @@ final class AppModel {
     var serverCount: Int { projects.reduce(0) { $0 + $1.servers.count } }
     var failedCount: Int { projects.filter { !$0.isOK }.count }
 
+    /// Badges the menu bar icon: a project failed to load, or the ssh config
+    /// could not be written.
+    var hasProblem: Bool {
+        if case .failed = sshStatus { return true }
+        return failedCount > 0
+    }
+
     private enum Keys {
         static let accounts = "accounts"
         static let refreshInterval = "refreshInterval"
