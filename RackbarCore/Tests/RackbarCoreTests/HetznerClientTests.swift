@@ -73,6 +73,35 @@ struct HetznerClientTests {
         #expect(data.storageBoxesError == nil)
     }
 
+    /// A server as the API sends it today: the location at the top, no
+    /// datacenter, and the IPv6 network's reverse names as a list.
+    @Test func readsTheServerAsHetznerSendsItToday() async throws {
+        let server = #"""
+            {"id":1,"name":"web-1","status":"running","locked":false,
+             "location":{"id":1,"name":"fsn1","city":"Falkenstein","country":"DE","network_zone":"eu-central"},
+             "server_type":{"id":1,"name":"cx22","cores":2,"memory":4,"disk":40},
+             "public_net":{"firewalls":[],"floating_ips":[],
+               "ipv4":{"id":1,"ip":"203.0.113.10","blocked":false,"dns_ptr":"static.example.com"},
+               "ipv6":{"id":2,"ip":"2001:db8::/64","blocked":false,
+                       "dns_ptr":[{"ip":"2001:db8::1","dns_ptr":"web-1.example.com"}]}},
+             "private_net":[{"ip":"10.0.0.2","alias_ips":[],"mac_address":"86:00:00:00:00:01","network":1}],
+             "labels":{},"volumes":[]}
+            """#
+        let transport = FakeTransport([
+            "/v1/servers?page=1": [.json(#"{"servers":[\#(server)],"meta":{"pagination":{"next_page":null}}}"#)],
+            "/v1/volumes?page=1": [volumes],
+            "/v1/storage_boxes?page=1": [noBoxes],
+        ])
+        let data = try await HetznerClient(transport: transport).project(token: "t").get()
+
+        let web = try #require(data.servers.first)
+        #expect(web.ipv4 == "203.0.113.10")
+        #expect(web.ipv4DNS == "static.example.com")
+        #expect(web.ipv6 == "2001:db8::/64")
+        #expect(web.city == "Falkenstein")
+        #expect(web.country == "DE")
+    }
+
     @Test func aRunawayNextPageStops() async throws {
         let transport = FakeTransport([
             "/v1/servers?page=1": [servers(["web-1"], nextPage: 1)],

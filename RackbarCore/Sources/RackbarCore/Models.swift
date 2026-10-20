@@ -128,9 +128,12 @@ struct APIServer: Decodable {
             var dnsPtr: String?
             enum CodingKeys: String, CodingKey { case ip, dnsPtr = "dns_ptr" }
         }
+        /// A /64 has no single reverse name: its `dns_ptr` is a list of
+        /// `{ip, dns_ptr}`, so only the network is read.
+        struct Network: Decodable { var ip: String? }
         struct Firewall: Decodable { var status: String? }
         var ipv4: Address?
-        var ipv6: Address?
+        var ipv6: Network?
         var firewalls: [Firewall]?
     }
     struct PrivateNet: Decodable { var ip: String? }
@@ -162,6 +165,9 @@ struct APIServer: Decodable {
     var publicNet: PublicNet?
     var privateNet: [PrivateNet]?
     var serverType: ServerType?
+    /// Where the server is. Older answers carried it only inside `datacenter`,
+    /// which Hetzner has since dropped from the server.
+    var location: Datacenter.Location?
     var datacenter: Datacenter?
     var image: Image?
     var placementGroup: Named?
@@ -171,7 +177,7 @@ struct APIServer: Decodable {
     // Spelled out rather than left to `.convertFromSnakeCase`, which would
     // rewrite the keys of `labels` as well.
     enum CodingKeys: String, CodingKey {
-        case id, name, status, created, locked, datacenter, image, protection, labels
+        case id, name, status, created, locked, location, datacenter, image, protection, labels
         case backupWindow = "backup_window"
         case outgoingTraffic = "outgoing_traffic"
         case ingoingTraffic = "ingoing_traffic"
@@ -200,8 +206,8 @@ struct APIServer: Decodable {
             diskGB: serverType?.disk,
             image: image?.description.nonEmpty ?? image?.name ?? "",
             osFlavor: image?.osFlavor.nonEmpty,
-            city: datacenter?.location?.city ?? "",
-            country: datacenter?.location?.country ?? "",
+            city: (location ?? datacenter?.location)?.city ?? "",
+            country: (location ?? datacenter?.location)?.country ?? "",
             datacenter: datacenter?.name ?? "",
             created: created ?? "",
             backupWindow: backupWindow.nonEmpty,
