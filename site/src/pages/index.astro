@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Terminal from '../components/Terminal.astro';
+import Features from '../components/Features.astro';
+import Privacy from '../components/Privacy.astro';
+import Setup from '../components/Setup.astro';
+import SettingsShot from '../components/SettingsShot.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="Rackbar — Hetzner Cloud servers in your macOS menu bar"
+  description="Every server in every Hetzner Cloud project in the macOS menu bar, and an ssh config that writes itself. Read-only, sandboxed, MIT licensed."
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+    <Terminal />
+    <Features />
+    <Privacy />
+    <Setup />
+    <SettingsShot />
+    <Faq />
+  </main>
+  <Footer />
+</Base>
+
+<script src="../scripts/site.ts"></script>

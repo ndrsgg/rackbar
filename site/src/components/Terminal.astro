@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+import { fleet } from '../data/fleet';
+
+const acme = fleet[0].servers.map((s) => `acme/${s.name}`).sort();
+// zsh lists completions down the columns; two rows keeps the block narrow.
+const columns = (names: string[], rows: number) => {
+  const cols = Math.ceil(names.length / rows);
+  return Array.from({ length: rows }, (_, r) =>
+    Array.from({ length: cols }, (_, c) => names[c * rows + r] ?? '')
+      .map((n) => n.padEnd(15))
+      .join('')
+      .trimEnd(),
+  ).join('\n');
+};
+const all = columns(acme, 2);
+const web = columns(acme.filter((n) => n.startsWith('acme/web-')), 1);
+---
+
+<section class="section term-section" aria-labelledby="term-title">
+  <div class="wrap term-grid">
+    <div class="term-copy" data-reveal>
+      <h2 id="term-title">Type the project.<br />Press Tab.</h2>
+      <p>
+        Every server with a public IPv4 gets a <code>Host acme/web-1</code> entry, written for you. ssh, scp,
+        rsync and mosh read it, and so does your shell's tab completion.
+      </p>
+      <p class="muted">
+        The label is the namespace: one per project, or one for every project a customer has.
+      </p>
+    </div>
+
+    <figure class="window term" data-reveal tabindex="-1">
+      <div class="titlebar">
+        <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="title" aria-hidden="true">~ — zsh</span>
+        <button type="button" class="replay" data-replay hidden>
+          <Icon name="replay" size={14} /> Replay
+        </button>
+      </div>
+      <pre
+        class="term-body"
+        aria-hidden="true"
+        data-terminal
+        data-complete-all={all}
+        data-complete-web={web}><span class="p">~ %</span> ssh acme/<span class="caret"></span>
+<span class="c">{all}</span></pre>
+      <figcaption class="sr-only">
+        A terminal: typing “ssh acme/” and pressing Tab lists {acme.join(', ')}. Completing to acme/web-1 and
+        pressing Return logs in to web-1.
+      </figcaption>
+      <div class="keys" aria-hidden="true">
+        <kbd data-key="tab">Tab</kbd>
+        <kbd data-key="return">Return</kbd>
+      </div>
+    </figure>
+  </div>
+</section>

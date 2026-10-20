@@ -1,0 +1,64 @@
+---
+// A stand-in for /img/panel.png, drawn after App/Views/MenuPanel.swift and
+// Rows.swift with the demo fleet. Shown only while the screenshot is missing.
+import { fleet, serverCount } from '../data/fleet';
+---
+
+<div class="pm" aria-hidden="true">
+  <div class="pm-head">
+    <div>
+      <div class="pm-title">Rackbar</div>
+      <div class="pm-sub">{serverCount} servers · {fleet.length} projects</div>
+    </div>
+    <span class="pm-tools">
+      <svg viewBox="0 0 16 16" width="14" height="14"><path d="M13 8a5 5 0 1 1-1.6-3.7M13 2.5v2.8h-2.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      <svg viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="2.2 2.2" /><circle cx="8" cy="8" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5" /><circle cx="8" cy="8" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2" /></svg>
+    </span>
+  </div>
+  <div class="pm-search">Search servers, addresses, labels</div>
+  <div class="pm-list">
+    {fleet.map((project) => (
+      <>
+        <div class="pm-section">
+          <span class="pm-label">{project.label.toUpperCase()}</span>
+          <span class="pm-count">{project.servers.length}</span>
+          <span class="pm-ns">ssh {project.label}/…</span>
+        </div>
+        {project.servers.map((s) => (
+          <div class="pm-row">
+            <span class={`dot dot-${s.tone}`} />
+            <span class="pm-text">
+              <span class="pm-name">
+                {s.name}
+                {s.status !== 'running' && <span class="pm-status">{s.status}</span>}
+              </span>
+              <span class="pm-meta">{s.ipv4} · {s.type} · {s.location}</span>
+            </span>
+            <svg class="pm-copy" viewBox="0 0 16 16" width="13" height="13"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" fill="none" stroke="currentColor" stroke-width="1.2" /></svg>
+          </div>
+        ))}
+        {project.boxes.map((b) => (
+          <div class="pm-row">
+            <span class="dot dot-live" />
+            <span class="pm-text">
+              <span class="pm-name">
+                <svg class="pm-drive" viewBox="0 0 16 16" width="11" height="11"><rect x="1.5" y="4.5" width="13" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3" /><circle cx="11.5" cy="8" r=".9" fill="currentColor" /></svg>
+                {b.name}
+              </span>
+              <span class="pm-meta">{[b.product, b.location, ...b.services].join(' · ')}</span>
+              <span class="pm-bar"><span style={`width:${b.fill * 100}%`} /></span>
+            </span>
+            <svg class="pm-copy" viewBox="0 0 16 16" width="13" height="13"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" fill="none" stroke="currentColor" stroke-width="1.2" /></svg>
+          </div>
+        ))}
+      </>
+    ))}
+  </div>
+  <div class="pm-foot">
+    <span>
+      <svg viewBox="0 0 16 16" width="11" height="11"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.3" /><path d="M5.3 8.2l1.8 1.8 3.6-3.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      ssh: {serverCount} hosts
+    </span>
+    <span>Updated 2 min ago</span>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+---
+import Lockup from './Lockup.astro';
+import { links } from '../data/links';
+---
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="brand"><Lockup size={16} cursor={false} /></p>
+      <p>MIT licensed. No trackers, no cookies on this page.</p>
+      <p>Not affiliated with Hetzner Online GmbH.</p>
+    </div>
+    <ul role="list" class="footer-links">
+      <li><a href={links.repo}>GitHub</a></li>
+      <li><a href={links.license}>License</a></li>
+      <li><a href={links.omarchy}>omarchy-hcloud</a></li>
+    </ul>
+  </div>
+</footer>

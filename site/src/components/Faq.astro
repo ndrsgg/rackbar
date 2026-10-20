@@ -1,0 +1,73 @@
+---
+import { links } from '../data/links';
+---
+
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <h2 id="faq-title">Questions.</h2>
+    </header>
+
+    <div class="faq" data-reveal>
+      <details>
+        <summary><span>Why read-only?</span></summary>
+        <div>
+          <p>
+            Listing servers and writing an ssh config only need read access, so that is all Rackbar asks for. A
+            Read token cannot change anything in your project, whatever the app does with it. A menu bar is also
+            one stray click from anything it offers, and nobody should restart a database by mistake.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Where are my tokens stored?</span></summary>
+        <div>
+          <p>
+            In the data protection Keychain on your Mac: readable after first unlock, never synced. Not in
+            UserDefaults, not on a command line. Rackbar tries a token before it keeps it, and removing a project
+            deletes its tokens from the Keychain.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Does it work with several projects?</span></summary>
+        <div>
+          <p>
+            That is what it is for. Add one token per Hetzner project, each under a label. Tokens that share a label
+            share one heading and one ssh namespace, which helps when a customer's servers are spread over several
+            projects. A refresh costs three requests per token, made side by side.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Why at the end of <code>~/.ssh/config</code>?</span></summary>
+        <div>
+          <p>Because ssh takes the first value it finds. Whatever you set above the <code>Include</code> wins over the generated entries:</p>
+          <pre class="snippet"><span class="k">Host</span> acme/*
+    <span class="k">User</span> deploy
+    <span class="k">IdentityFile</span> ~/.ssh/work_ed25519
+
+<span class="k">Host</span> acme/db-1
+    <span class="k">ProxyJump</span> acme/bastion
+
+<span class="k">Match</span> all
+<span class="k">Include</span> hcloud/config</pre>
+          <p><code>Match all</code> closes whatever <code>Host</code> block came last. Without it, the <code>Include</code> would only apply inside that block.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span>Is there a Linux version?</span></summary>
+        <div>
+          <p>
+            Rackbar is macOS only. On Linux with Omarchy, its sibling
+            <a href={links.omarchy}>omarchy-hcloud</a> does the same in the Omarchy bar.
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>

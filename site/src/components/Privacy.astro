@@ -1,0 +1,74 @@
+---
+import { links } from '../data/links';
+---
+
+<section class="section privacy" id="privacy" aria-labelledby="privacy-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <h2 id="privacy-title">Your keys stay&nbsp;yours.</h2>
+      <p>
+        Rackbar runs in the App Sandbox. It does not get <code>~/.ssh</code>. It gets one folder that you create
+        and pick once, and it owns the one file in there.
+      </p>
+    </header>
+
+    <div class="privacy-grid">
+      <figure class="tree" data-reveal>
+        <ul role="list" aria-label="The ~/.ssh folder">
+          <li class="tree-root"><code>~/.ssh/</code></li>
+          <li class="tree-off">
+            <code>├── id_ed25519</code><span class="note">Rackbar cannot see this</span>
+          </li>
+          <li class="tree-off">
+            <code>├── config</code><span class="note">nor this</span>
+          </li>
+          <li class="tree-grant">
+            <code>└── hcloud/</code><span class="note">the only folder you granted</span>
+          </li>
+          <li class="tree-own">
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;└── config</code><span class="note">written by Rackbar</span>
+          </li>
+        </ul>
+        <figcaption>
+          You add two lines to your own config, once. Rackbar never touches it.
+        </figcaption>
+      </figure>
+
+      <dl class="facts" data-reveal>
+        <div>
+          <dt>Tokens</dt>
+          <dd>Only in the macOS Keychain: readable after first unlock, never synced. Not in UserDefaults, not on a command line.</dd>
+        </div>
+        <div>
+          <dt>Files</dt>
+          <dd>Your keys and your <code>~/.ssh/config</code> are outside the sandbox. The one folder you pick is all Rackbar can write to.</dd>
+        </div>
+        <div>
+          <dt>Entitlements</dt>
+          <dd>
+            The network, the folder you picked, and a bookmark to find it again after a restart.
+            <a href={links.entitlements}>That is the whole list</a>.
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="rules" data-reveal>
+      <h3>What the sync will not do</h3>
+      <ol role="list">
+        <li>
+          <h4>Write from an incomplete picture.</h4>
+          <p>If any project fails to load (an expired token, a dropped network) nothing is written. Writing would delete that project's hosts over a passing error.</p>
+        </li>
+        <li>
+          <h4>Write anything ssh could misread.</h4>
+          <p>A name outside <code>[A-Za-z0-9._/-]</code>, an address that is not an IP, a user or key path with whitespace: the whole job is refused, and Settings says which one.</p>
+        </li>
+        <li>
+          <h4>Churn.</h4>
+          <p>The file is written atomically with mode <code>600</code>, and not at all when nothing changed.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>

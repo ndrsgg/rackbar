@@ -1,0 +1,19 @@
+---
+// Icon and wordmark, as in Brand/: the icon is 1.6 × the cap height and the
+// cursor (one mono underscore, signal green) is dropped at small sizes.
+interface Props {
+  size: number;
+  cursor?: boolean;
+}
+
+const { size, cursor = true } = Astro.props;
+const icon = Math.round(size * 1.64);
+---
+
+<span class="lockup" style={`font-size:${size}px`}>
+  <picture>
+    <source srcset="/icon-dark.svg" media="(prefers-color-scheme: dark)" />
+    <img src="/icon-light.svg" width={icon} height={icon} alt="" />
+  </picture>
+  <span class="wordmark">Rackbar{cursor && <span class="cursor" />}</span>
+</span>

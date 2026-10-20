@@ -1,0 +1,47 @@
+---
+import Code from './Code.astro';
+import Icon from './Icon.astro';
+import { links } from '../data/links';
+---
+
+<section class="section" id="setup" aria-labelledby="setup-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <h2 id="setup-title">Set up in three&nbsp;steps.</h2>
+      <p>Once. Each step is in the Settings window too, with the text ready to copy.</p>
+    </header>
+
+    <ol class="steps" role="list">
+      <li class="step" data-reveal>
+        <span class="step-n" aria-hidden="true">1</span>
+        <h3>Add a read-only token</h3>
+        <p>
+          In the Hetzner Cloud Console, under <b>Security → API tokens → Generate</b>, with <b>Read</b> permission.
+          One per project. Rackbar tries it before it keeps it.
+        </p>
+        <a class="link" href={links.console}>Open the Hetzner Console <Icon name="external" size={14} /></a>
+      </li>
+
+      <li class="step" data-reveal>
+        <span class="step-n" aria-hidden="true">2</span>
+        <h3>Pick <code>~/.ssh/hcloud</code></h3>
+        <p>Create a folder of its own inside <code>~/.ssh</code> and choose it in Settings → SSH. It is the only folder Rackbar can see.</p>
+        <Code code="mkdir ~/.ssh/hcloud" label="the mkdir command" />
+      </li>
+
+      <li class="step" data-reveal>
+        <span class="step-n" aria-hidden="true">3</span>
+        <h3>Add two lines to <code>~/.ssh/config</code></h3>
+        <p>At the end, once. Your own <code>Host</code> blocks above them still win.</p>
+        <Code code={'Match all\nInclude hcloud/config'} label="the two lines for ~/.ssh/config" />
+        <p class="small">Or append them from a terminal:</p>
+        <Code code={"printf '\\nMatch all\\nInclude hcloud/config\\n' >> ~/.ssh/config"} label="the printf command" />
+      </li>
+    </ol>
+
+    <p class="note-zsh" data-reveal>
+      No completions in zsh? Its completion system is off in the stock macOS <code>~/.zshrc</code>. Add
+      <code>autoload -Uz compinit &amp;&amp; compinit</code>, before plugins such as zsh-syntax-highlighting.
+    </p>
+  </div>
+</section>

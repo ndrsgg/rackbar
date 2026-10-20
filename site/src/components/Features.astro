@@ -1,0 +1,64 @@
+---
+import Icon from './Icon.astro';
+---
+
+<section class="section" id="features" aria-labelledby="features-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <h2 id="features-title">What you would otherwise look&nbsp;up.</h2>
+      <p>The addresses you keep pasting into a terminal, and the state of each machine, without opening the console.</p>
+    </header>
+
+    <div class="tiles">
+      <article class="tile" data-reveal>
+        <Icon name="list" size={22} class="tile-icon" />
+        <h3>All projects, one list.</h3>
+        <p>One read-only API token per Hetzner project, grouped under labels you choose. Several projects under one label share one heading and one ssh namespace.</p>
+        <div class="specimen spec-projects" aria-hidden="true">
+          <div><b>ACME</b><span>2 tokens</span><code>ssh acme/…</code></div>
+          <div><b>ZETA</b><span>1 token</span><code>ssh zeta/…</code></div>
+        </div>
+      </article>
+
+      <article class="tile" data-reveal>
+        <Icon name="copy" size={22} class="tile-icon" />
+        <h3>Copy, don't retype.</h3>
+        <p>Click a row for its IPv4. The menu has the name, IPv6, private IP and ssh alias. Storage Boxes too, with how full they are.</p>
+        <div class="specimen spec-menu" aria-hidden="true">
+          <div><span>IPv4</span><code>203.0.113.10</code></div>
+          <div><span>Name</span><code>web-1</code></div>
+          <div><span>IPv6</span><code>2001:db8:1::/64</code></div>
+          <div><span>Private</span><code>10.0.0.2</code></div>
+          <hr />
+          <div><code>ssh acme/web-1</code></div>
+        </div>
+      </article>
+
+      <article class="tile" data-reveal>
+        <Icon name="terminal" size={22} class="tile-icon" />
+        <h3>ssh that just works.</h3>
+        <p>Every server becomes <code>Host &lt;label&gt;/&lt;server&gt;</code>. ssh, scp, rsync and mosh read it, and so does your shell's tab completion.</p>
+        <pre class="specimen spec-config" aria-hidden="true"><span class="k">Host</span> acme/web-1
+    <span class="k">HostName</span> 203.0.113.10
+    <span class="k">User</span> root</pre>
+      </article>
+
+      <article class="tile" data-reveal>
+        <Icon name="state" size={22} class="tile-icon" />
+        <h3>State at a glance.</h3>
+        <p>Filled is running, hollow is off. Filled against hollow is a shape, not a shade, so it reads in every appearance.</p>
+        <ul class="specimen spec-states">
+          <li><span class="dot dot-live"></span>running</li>
+          <li><span class="dot dot-off"></span>off</li>
+          <li><span class="dot dot-busy"></span>changing</li>
+          <li><span class="dot dot-bad"></span>wrong</li>
+        </ul>
+      </article>
+    </div>
+
+    <p class="readonly" data-reveal>
+      <strong>Read-only by design.</strong>
+      It lists, it copies, it never powers anything on or off. Power actions are not on the roadmap, and patches for them are not accepted.
+    </p>
+  </div>
+</section>

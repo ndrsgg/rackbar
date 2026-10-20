@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+import Lockup from './Lockup.astro';
+import { links } from '../data/links';
+---
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/" aria-label="Rackbar, home">
+      <Lockup size={20} />
+    </a>
+    <nav aria-label="Sections">
+      <ul role="list">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="nav-gh" href={links.repo}><Icon name="github" size={16} /> GitHub</a>
+  </div>
+</header>
