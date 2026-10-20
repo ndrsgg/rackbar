@@ -178,6 +178,7 @@ private struct EmptyFleet: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
             Button("Add a Project…", action: showSettings)
                 .buttonStyle(.borderedProminent)
             Button("Look around with demo data") { model.demoMode = true }
